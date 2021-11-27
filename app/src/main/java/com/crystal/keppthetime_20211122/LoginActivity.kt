@@ -1,8 +1,9 @@
 package com.crystal.keppthetime_20211122
 
-import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -13,6 +14,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.security.MessageDigest
 
 class LoginActivity : BaseActivity() {
 
@@ -27,6 +29,14 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setupEvents() {
+
+        binding.btnFacebookLogin.setOnClickListener {
+
+//            소셜 로그인 로직 체험
+
+
+
+        }
 
         binding.btnSignUp.setOnClickListener {
             val myIntent = Intent(mContext, SignUpActivity::class.java)
@@ -91,5 +101,25 @@ class LoginActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        getKeyHash()
+
     }
+
+    fun getKeyHash() {
+
+        val info = packageManager.getPackageInfo(
+            "com.crystal.keppthetime_20211122",
+            PackageManager.GET_SIGNATURES
+        )
+        for (signature in info.signatures) {
+            val md: MessageDigest = MessageDigest.getInstance("SHA")
+            md.update(signature.toByteArray())
+            Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT))
+        }
+
+    }
+
+
+
 }
