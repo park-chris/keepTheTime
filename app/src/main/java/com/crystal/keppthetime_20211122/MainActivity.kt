@@ -3,6 +3,7 @@ package com.crystal.keppthetime_20211122
 import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
+import com.bumptech.glide.Glide
 import com.crystal.keppthetime_20211122.databinding.ActivityMainBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.utils.ContextUtil
@@ -44,6 +45,14 @@ class MainActivity : BaseActivity() {
                     val basicResponse = response.body()!!
 
                     Log.d("응답 내용", basicResponse.data.user.nickname)
+
+                    binding.txtNickname.text = basicResponse.data.user.nickname
+
+
+//                    사용자의 프사 표시
+
+                    Glide.with(mContext).load(basicResponse.data.user.profileImageUrl).into(binding.imgProfile)
+
                 }
 
             }
