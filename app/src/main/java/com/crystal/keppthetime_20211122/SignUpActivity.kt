@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivitySignUpBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
+import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,16 +39,34 @@ class SignUpActivity : BaseActivity() {
                 ) {
 
                     if (response.isSuccessful) {
+
+//                        code : 200인가?
+
                         Log.d("회원가입", "사용해도 좋습니다.")
+
                     }
                     else {
+
+//                        최종 결과 코드가, 200이 아닌 상황. -> (에러) 응답 String -> JSONObject변환 사용.
+
                         Log.d("회원가입", "사용하면 안됩니다.")
+
+                        val errorBody = response.errorBody()!!.string()
+                        val jsonObj = JSONObject(errorBody)
+
+                        Log.d("중복확인실패", jsonObj.toString())
+
+                        val message = jsonObj.getString("message")
+
+                        Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show()
+
                     }
 
                 }
 
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
 
+//                    물리적 연결 실패 (
 
                 }
 
