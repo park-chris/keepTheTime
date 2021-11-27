@@ -10,12 +10,15 @@ import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivityLoginBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.utils.ContextUtil
-import com.facebook.CallbackManager
+import com.facebook.*
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.security.MessageDigest
+import java.util.*
 
 class LoginActivity : BaseActivity() {
 
@@ -38,8 +41,41 @@ class LoginActivity : BaseActivity() {
 
 //            소셜 로그인 로직 체험
 
+//            페북로그인에 성공하게 되면 할일도 미리 설정.
+
+            LoginManager.getInstance().registerCallback( callbackManager, object  : FacebookCallback<LoginResult> {
+                override fun onSuccess(result: LoginResult?) {
+
+//                    페북 로그인 성공 -> 그 결과로 토큰 받아오기 성공.
+
+                    Log.d("로그인성공", AccessToken.getCurrentAccessToken().toString())
+
+//                    이 토큰을 이용해서 -> 페북에서 사용자 정보도 받아오자. => 페북 클래스 : GraphRequest
+
+                    GraphRequest.newMeRequest(result?.accessToken, object : GraphRequest.GraphJSONObjectCallback {
+
+                        override fun onCompleted(jsonObj: JSONObject?, response: GraphResponse?) {
+
+                            Log.d("내 정보", jsonObj.toString())
+                            Log.d("내 정보 응답", response.toString())
+
+                        }
+                    })
+
+                }
+
+                override fun onCancel() {
+
+                }
+
+                override fun onError(error: FacebookException?) {
+
+                }
 
 
+            })
+
+            LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile"))
 
         }
 
