@@ -2,6 +2,7 @@ package com.crystal.keppthetime_20211122
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivitySignUpBinding
@@ -41,19 +42,16 @@ class SignUpActivity : BaseActivity() {
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-
                     if (response.isSuccessful) {
 
                         val basicResponse = response.body()!!
 
-                        Toast.makeText(mContext, basicResponse.message, Toast.LENGTH_SHORT).show()
+                        Log.d("응답내용", basicResponse.data.user.nickname)
                     }
 
                 }
 
                 override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-
-
                 }
 
 
