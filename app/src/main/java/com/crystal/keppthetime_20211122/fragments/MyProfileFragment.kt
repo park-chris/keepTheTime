@@ -1,5 +1,6 @@
 package com.crystal.keppthetime_20211122.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.crystal.keppthetime_20211122.R
+import com.crystal.keppthetime_20211122.ViewFriendListActivity
 import com.crystal.keppthetime_20211122.databinding.FragmentMyProfileBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.utils.ContextUtil
@@ -41,6 +43,14 @@ class MyProfileFragment : BaseFragment() {
 
 
     override fun setupEvents() {
+
+        binding.btnFriendList.setOnClickListener {
+
+            val myIntent = Intent(mContext, ViewFriendListActivity::class.java)
+            startActivity(myIntent)
+
+        }
+
     }
 
     override fun setValues() {
