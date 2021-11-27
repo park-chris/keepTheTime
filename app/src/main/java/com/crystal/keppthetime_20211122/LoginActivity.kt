@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivityLoginBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.utils.ContextUtil
+import com.facebook.CallbackManager
 import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
@@ -19,6 +20,9 @@ import java.security.MessageDigest
 class LoginActivity : BaseActivity() {
 
     lateinit var binding : ActivityLoginBinding
+
+//    페북 로그인에 다녀오면 할일을 관리해주는 변수.
+    lateinit var callbackManager : CallbackManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +37,7 @@ class LoginActivity : BaseActivity() {
         binding.btnFacebookLogin.setOnClickListener {
 
 //            소셜 로그인 로직 체험
+
 
 
 
@@ -104,7 +109,16 @@ class LoginActivity : BaseActivity() {
 
         getKeyHash()
 
+//        페북로그인 - 콜백 관리 기능 생성
+        callbackManager = CallbackManager.Factory.create()
+
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        callbackManager.onActivityResult(requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
 
     fun getKeyHash() {
 
