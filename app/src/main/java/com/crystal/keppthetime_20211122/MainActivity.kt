@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.crystal.keppthetime_20211122.adapters.MainViewPagerAdapter
 import com.crystal.keppthetime_20211122.databinding.ActivityMainBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.utils.ContextUtil
@@ -14,6 +15,8 @@ import retrofit2.Response
 class MainActivity : BaseActivity() {
 
     lateinit var binding: ActivityMainBinding
+
+    lateinit var mvpa : MainViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -28,6 +31,12 @@ class MainActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        mvpa = MainViewPagerAdapter(supportFragmentManager)
+
+        binding.mainViewPager.adapter = mvpa
+
+        binding.mainTabLayout.setupWithViewPager(binding.mainViewPager)
 
         getMyInfoFromServer()
 
@@ -46,12 +55,12 @@ class MainActivity : BaseActivity() {
 
                     Log.d("응답 내용", basicResponse.data.user.nickname)
 
-                    binding.txtNickname.text = basicResponse.data.user.nickname
+//                    binding.txtNickname.text = basicResponse.data.user.nickname
 
 
 //                    사용자의 프사 표시
 
-                    Glide.with(mContext).load(basicResponse.data.user.profileImageUrl).into(binding.imgProfile)
+//                    Glide.with(mContext).load(basicResponse.data.user.profileImageUrl).into(binding.imgProfile)
 
                 }
 
