@@ -1,5 +1,6 @@
 package com.crystal.keppthetime_20211122
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,6 +8,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivityLoginBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
+import com.crystal.keppthetime_20211122.utils.ContextUtil
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -48,9 +50,8 @@ class LoginActivity : BaseActivity() {
                     if (response.isSuccessful) {
 
                         val basicResponse = response.body()!!
-                        Log.d("로그인성공", basicResponse.message)
 
-                        Log.d("사용자토큰", basicResponse.data.token)
+                        ContextUtil.setToken(mContext, basicResponse.data.token)
 
                         Toast.makeText(mContext, "${basicResponse.data.user.nickname}님 환영합니다!", Toast.LENGTH_SHORT).show()
 
