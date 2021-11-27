@@ -1,5 +1,6 @@
 package com.crystal.keppthetime_20211122
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -25,6 +26,10 @@ class MainActivity : BaseActivity() {
 
     override fun setupEvents() {
 
+        binding.btnSignUp.setOnClickListener {
+            val myIntent = Intent(mContext, SignUpActivity::class.java)
+            startActivity(myIntent)
+        }
         binding.btnLogin.setOnClickListener {
 
 //            1. 입력 email / pw 변수 담자
