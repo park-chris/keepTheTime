@@ -23,7 +23,7 @@ abstract class BaseActivity : AppCompatActivity() {
         mContext = this
 
 //        서버통신 관련 세팅
-        retrofit = ServerAPI.getRetrofit()
+        retrofit = ServerAPI.getRetrofit(mContext)
         apiService = retrofit.create(ServerAPIService::class.java)
 
     }
