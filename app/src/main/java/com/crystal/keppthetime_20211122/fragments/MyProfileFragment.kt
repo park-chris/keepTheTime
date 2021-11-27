@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import com.crystal.keppthetime_20211122.R
 import com.crystal.keppthetime_20211122.databinding.FragmentMyProfileBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
@@ -62,10 +63,9 @@ class MyProfileFragment : BaseFragment() {
 
 //                    닉네임 / 프로필 이미지 주소 추출 => UI 반영?
 
+                    binding.txtNickname.text = br.data.user.nickname
 
-
-
-
+                    Glide.with(mContext).load(br.data.user.profileImageUrl).into(binding.imgProfile)
                 }
 
             }
