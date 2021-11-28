@@ -91,6 +91,8 @@ interface ServerAPIService {
         @Field("longitude") lng: Double
     ) : Call<BasicResponse>
 
+    @GET("/appointment")
+    fun getReqeuestAppointment() : Call<BasicResponse>
 
 //    연습 - 내 정보 가져오기 API
 
