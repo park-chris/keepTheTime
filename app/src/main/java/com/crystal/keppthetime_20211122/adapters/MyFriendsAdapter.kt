@@ -5,6 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.ImageView
+import android.widget.TextView
+import com.bumptech.glide.Glide
 import com.crystal.keppthetime_20211122.R
 import com.crystal.keppthetime_20211122.datas.UserData
 
@@ -24,6 +27,15 @@ class MyFriendsAdapter(
         }
 
         val row = tempRow!!
+
+        val data = mList[position]
+
+        val imgProfile = row.findViewById<ImageView>(R.id.imgProfile)
+        val txtNickname = row.findViewById<TextView>(R.id.txtNickname)
+
+        txtNickname.text = data.nickname
+        Glide.with(mContext).load(data.profileImageUrl).into(imgProfile)
+
 
         return row
     }
