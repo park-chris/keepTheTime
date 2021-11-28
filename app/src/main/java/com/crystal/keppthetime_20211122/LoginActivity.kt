@@ -10,6 +10,7 @@ import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivityLoginBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.utils.ContextUtil
+import com.crystal.keppthetime_20211122.utils.GlobalData
 import com.facebook.*
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
@@ -71,6 +72,8 @@ class LoginActivity : BaseActivity() {
                             Log.d("앱서버토큰", br.data.token)
 
                             ContextUtil.setToken(mContext, br.data.token)
+
+                            GlobalData.loginUser = br.data.user
 
                             val myIntent = Intent(mContext, MainActivity::class.java)
                             startActivity(myIntent)
@@ -178,6 +181,9 @@ class LoginActivity : BaseActivity() {
 
                                         ContextUtil.setToken(mContext, br.data.token)
 
+                                        GlobalData.loginUser = br.data.user
+
+
                                         val myIntent = Intent(mContext, MainActivity::class.java)
                                         startActivity(myIntent)
 
@@ -241,6 +247,8 @@ class LoginActivity : BaseActivity() {
                         val basicResponse = response.body()!!
 
                         ContextUtil.setToken(mContext, basicResponse.data.token)
+
+                        GlobalData.loginUser = basicResponse.data.user
 
                         Toast.makeText(mContext, "${basicResponse.data.user.nickname}님 환영합니다!", Toast.LENGTH_SHORT).show()
 
