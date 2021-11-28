@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.crystal.keppthetime_20211122.adapters.SearchedFriendRecyclerAdapter
 import com.crystal.keppthetime_20211122.databinding.ActivityAddFriendMainBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.datas.UserData
@@ -17,6 +19,8 @@ class AddFriendMainActivity : BaseActivity() {
     lateinit var binding : ActivityAddFriendMainBinding
 
     val mSearchedUserList = ArrayList<UserData>()
+
+    lateinit var mAdapter : SearchedFriendRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +59,8 @@ class AddFriendMainActivity : BaseActivity() {
 
                         mSearchedUserList.addAll(br.data.users)
 
+                        mAdapter.notifyDataSetChanged()
+
 
                     }
                 }
@@ -71,5 +77,12 @@ class AddFriendMainActivity : BaseActivity() {
     }
 
     override fun setValues() {
+
+        mAdapter = SearchedFriendRecyclerAdapter( mContext, mSearchedUserList)
+
+        binding.searchFriendRecyclerView.adapter = mAdapter
+
+        binding.searchFriendRecyclerView.layoutManager = LinearLayoutManager(mContext)
+
     }
 }
