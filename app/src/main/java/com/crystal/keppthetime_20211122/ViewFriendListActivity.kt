@@ -16,10 +16,6 @@ class ViewFriendListActivity : BaseActivity() {
 
     lateinit var binding : ActivityViewFriendListBinding
 
-    val mMyFriendList = ArrayList<UserData>()
-
-    lateinit var mFriendAdapter: MyFriendsAdapter
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_view_friend_list)
@@ -33,37 +29,8 @@ class ViewFriendListActivity : BaseActivity() {
     }
 
     override fun setValues() {
-        getMyFriendsFromServer()
-
-        mFriendAdapter = MyFriendsAdapter(mContext, R.layout.my_friend_list, mMyFriendList)
-        binding.myFriendListView.adapter = mFriendAdapter
 
     }
 
-    fun getMyFriendsFromServer() {
-
-        apiService.getRequestMyFriends("my").enqueue(object : Callback<BasicResponse>{
-            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
-
-                if ( response.isSuccessful) {
-
-                    val br = response.body()!!
-
-                    mMyFriendList.addAll( br.data.friends )
-
-                    mFriendAdapter.notifyDataSetChanged()
-
-                }
-
-            }
-
-            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
-
-            }
-
-
-        })
-
-    }
 
 }
