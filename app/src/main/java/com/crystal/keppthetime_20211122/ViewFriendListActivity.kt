@@ -7,6 +7,7 @@ import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.crystal.keppthetime_20211122.adapters.MyFriendsRecyclerAdapter
+import com.crystal.keppthetime_20211122.adapters.RequestedFriendsRecyclerAdapter
 import com.crystal.keppthetime_20211122.databinding.ActivityViewFriendListBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.datas.UserData
@@ -20,7 +21,9 @@ class ViewFriendListActivity : BaseActivity() {
 
     val mMyFridendsList = ArrayList<UserData>()
 
-    lateinit var mMyFriendsAdapter: MyFriendsRecyclerAdapter
+//    lateinit var mMyFriendsAdapter: MyFriendsRecyclerAdapter
+
+    lateinit var mRequestedFriendsAdapter: RequestedFriendsRecyclerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,8 +51,9 @@ class ViewFriendListActivity : BaseActivity() {
 
         getMyFriendsFromServer()
 
-        mMyFriendsAdapter = MyFriendsRecyclerAdapter(mContext, mMyFridendsList)
-        binding.myFriendsRecyclerView.adapter = mMyFriendsAdapter
+//        mMyFriendsAdapter = MyFriendsRecyclerAdapter(mContext, mMyFridendsList)
+        mRequestedFriendsAdapter = RequestedFriendsRecyclerAdapter(mContext, mMyFridendsList)
+        binding.myFriendsRecyclerView.adapter = mRequestedFriendsAdapter
 
 //        여러 형태로 목록 배치 가능. -> 어떤 형태로 보여줄건지? 리싸이클러뷰에 세팅.
         binding.myFriendsRecyclerView.layoutManager = LinearLayoutManager(mContext)
@@ -60,7 +64,7 @@ class ViewFriendListActivity : BaseActivity() {
 
     fun getMyFriendsFromServer() {
 
-        apiService.getRequestMyFriends("my").enqueue(object : Callback<BasicResponse>{
+        apiService.getRequestMyFriends("requested").enqueue(object : Callback<BasicResponse>{
             override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
 
                 if (response.isSuccessful) {
@@ -69,7 +73,7 @@ class ViewFriendListActivity : BaseActivity() {
 
                     mMyFridendsList.addAll(br.data.friends)
 
-                    mMyFriendsAdapter.notifyDataSetChanged()
+                    mRequestedFriendsAdapter.notifyDataSetChanged()
 
                 }
             }
