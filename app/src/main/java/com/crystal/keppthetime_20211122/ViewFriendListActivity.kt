@@ -2,6 +2,7 @@ package com.crystal.keppthetime_20211122
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivityViewFriendListBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
@@ -41,7 +42,7 @@ class ViewFriendListActivity : BaseActivity() {
 
                     val br = response.body()!!
 
-
+                    mMyFriendList.addAll( br.data.friends )
 
                 }
 
