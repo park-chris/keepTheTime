@@ -11,6 +11,7 @@ import com.crystal.keppthetime_20211122.datas.BasicResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
 import java.util.*
 
 class EditAppointmentActivity : BaseActivity() {
@@ -53,6 +54,15 @@ class EditAppointmentActivity : BaseActivity() {
 //                    년/월/일을 한번에 저장하는 set 함수 활용
                     mSelectedDateTime.set(year, month, day)
 
+//                    txtDate의 문구를 -> 2021-12-05 와  같은 양식으로 가공해서 텍스트 세팅.
+
+//                    Calendar를 다룰 양식만 미리 지정.
+                    val dateFormat = SimpleDateFormat( "yyyy-MM-dd" )
+
+//                    Calendar => String 변환.
+                    val dateStr = dateFormat.format(mSelectedDateTime.time)
+
+                    binding.txtDate.text = dateStr
 
                 }
 
