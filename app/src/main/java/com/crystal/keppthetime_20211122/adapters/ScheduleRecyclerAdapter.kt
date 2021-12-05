@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.crystal.keppthetime_20211122.R
 import com.crystal.keppthetime_20211122.datas.ScheduleData
@@ -12,9 +14,17 @@ class ScheduleRecyclerAdapter(val mContext: Context, val mList: List<ScheduleDat
 
     inner class ScheduleViewHolder(row: View) : RecyclerView.ViewHolder(row) {
 
+        val txtAppointmentTitle = row.findViewById<TextView>(R.id.txtAppointmentTitle)
+        val txtAppointmentPlace = row.findViewById<TextView>(R.id.txtAppointmentPlace)
+        val txtDateTime = row.findViewById<TextView>(R.id.txtDateTime)
+        val imgMap = row.findViewById<ImageView>(R.id.imgMap)
 
+        fun bind( data: ScheduleData ) {
 
+            txtAppointmentTitle.text = data.title
+            txtAppointmentPlace.text = data.place
 
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ScheduleViewHolder {
@@ -24,6 +34,8 @@ class ScheduleRecyclerAdapter(val mContext: Context, val mList: List<ScheduleDat
     }
 
     override fun onBindViewHolder(holder: ScheduleViewHolder, position: Int) {
+
+        holder.bind(mList[position])
 
 
     }
