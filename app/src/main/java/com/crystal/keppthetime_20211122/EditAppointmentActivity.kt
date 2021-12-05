@@ -13,6 +13,8 @@ import com.crystal.keppthetime_20211122.databinding.ActivityEditAppointmentBindi
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -214,10 +216,20 @@ class EditAppointmentActivity : BaseActivity() {
 //           예시. 카메라를 본인 집근처로 이동
 
 //            위경도 정보 => 카메라 이동 명령을 변수에 저장만.
-            val cameraUpdate = CameraUpdate.scrollTo( LatLng( 37.547461170580696, 127.04715823471302 ) )
 
+            val latLng =  LatLng( 37.547461170580696, 127.04715823471302 )
+
+            val cameraUpdate = CameraUpdate.scrollTo( latLng )
             naverMap.moveCamera(cameraUpdate)
 
+
+//            마커를 본인 집 근처 찍어보기
+
+            val marker = Marker()
+            marker.position = latLng
+            marker.map = naverMap
+
+            marker.icon = OverlayImage.fromResource(R.drawable.custom_marker_small)
 
 
         }
