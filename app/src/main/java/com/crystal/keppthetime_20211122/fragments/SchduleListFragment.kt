@@ -10,10 +10,17 @@ import androidx.fragment.app.Fragment
 import com.crystal.keppthetime_20211122.EditAppointmentActivity
 import com.crystal.keppthetime_20211122.R
 import com.crystal.keppthetime_20211122.databinding.FragmentScheduleListBinding
+import com.crystal.keppthetime_20211122.datas.BasicResponse
+import com.crystal.keppthetime_20211122.datas.ScheduleData
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class SchduleListFragment : BaseFragment() {
 
     lateinit var binding : FragmentScheduleListBinding
+
+    val mScheduleList = ArrayList<ScheduleData>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,6 +48,35 @@ class SchduleListFragment : BaseFragment() {
     }
 
     override fun setValues() {
+
+        getScheduleListFromServer()
+
+    }
+
+    fun getScheduleListFromServer() {
+
+        apiService.getReqeuestAppointment().enqueue( object : Callback<BasicResponse> {
+            override fun onResponse(call: Call<BasicResponse>, response: Response<BasicResponse>) {
+
+                if (response.isSuccessful) {
+
+                    val br = response.body()!!
+
+                    mScheduleList.clear()
+
+                    mScheduleList.addAll(br.data.appointments)
+
+
+
+                }
+            }
+
+            override fun onFailure(call: Call<BasicResponse>, t: Throwable) {
+
+            }
+
+
+        })
 
     }
 
