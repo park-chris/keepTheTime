@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.crystal.keppthetime_20211122.databinding.ActivityViewPlaceMapBinding
+import com.crystal.keppthetime_20211122.datas.ScheduleData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
@@ -12,8 +13,7 @@ class ViewPlaceMapActivity : BaseActivity() {
 
     lateinit var binding : ActivityViewPlaceMapBinding
 
-    var mSelectedLatLng : LatLng? = null
-    var mSelectedMarker : Marker? = null
+    lateinit var mScheduleData : ScheduleData
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +28,9 @@ class ViewPlaceMapActivity : BaseActivity() {
 
     override fun setValues() {
 
+        mScheduleData = intent.getSerializableExtra("schedule") as ScheduleData
+
+
 //        0. 프로젝트에 네이버지도 설치 (완료
 
 //        1. 화면 (xml)에 네이버 맵 띄워주기
@@ -40,25 +43,21 @@ class ViewPlaceMapActivity : BaseActivity() {
 
             val naverMap = it
 
-            naverMap.setOnMapClickListener { point, latLng ->
+//        3. 카메라 이동 / 마커 추가 (받아온 ㅡ케쥴의 위도/경도 이용)
 
-                val cameraUpdate = CameraUpdate.scrollTo(latLng)
+//            위치 (좌표) 데이터 객체
+            val coord = LatLng( mScheduleData.latitude, mScheduleData.longitude )
 
-                naverMap.moveCamera(cameraUpdate)
+            val cameraUpdate = CameraUpdate.scrollTo( coord )
 
-                mSelectedLatLng = latLng
+            naverMap.moveCamera(cameraUpdate)
 
-                if (mSelectedMarker == null ) {
-                    mSelectedMarker = Marker()
-                }
-                mSelectedMarker!!.position = latLng
-                mSelectedMarker!!.map = naverMap
-
-            }
+            val marker = Marker()
+            marker.position = coord
+            marker.map = naverMap
 
         }
 
-//        3. 카메라 이동 / 마커 추가 (받아온 ㅡ케쥴의 위도/경도 이용)
 
     }
 
