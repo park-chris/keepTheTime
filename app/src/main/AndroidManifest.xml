@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KeppTheTime_20211122">
-
+        <activity
+            android:name=".ViewPlaceMapActivity"
+            android:exported="false" />
         <activity
             android:name=".EditAppointmentActivity"
             android:exported="false" />
@@ -77,6 +79,7 @@
                     android:scheme="kakao30a957545341f5f8967be73dad325451" />
             </intent-filter>
         </activity>
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="hpr060sh0j" />

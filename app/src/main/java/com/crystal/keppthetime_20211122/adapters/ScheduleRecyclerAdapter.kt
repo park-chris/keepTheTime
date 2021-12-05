@@ -1,6 +1,7 @@
 package com.crystal.keppthetime_20211122.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.crystal.keppthetime_20211122.R
+import com.crystal.keppthetime_20211122.ViewPlaceMapActivity
 import com.crystal.keppthetime_20211122.datas.ScheduleData
 
 class ScheduleRecyclerAdapter(val mContext: Context, val mList: List<ScheduleData>) : RecyclerView.Adapter<ScheduleRecyclerAdapter.ScheduleViewHolder>(){
@@ -25,6 +27,13 @@ class ScheduleRecyclerAdapter(val mContext: Context, val mList: List<ScheduleDat
             txtAppointmentPlace.text = data.place
 
             txtDateTime.text = data.getFormattedDatetime()
+
+            imgMap.setOnClickListener {
+
+                val myIntent = Intent(mContext, ViewPlaceMapActivity::class.java)
+                mContext.startActivity(myIntent)
+            }
+
         }
     }
 

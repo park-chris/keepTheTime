@@ -12,7 +12,7 @@ class ScheduleData(
     var place: String,
     var latitude: Double,
     var longitude: Double,
-    var created_at: String,
+    var created_at: Date,
 ) {
 
 //    datetime (약속일시) : Date로 저장되어있다.
