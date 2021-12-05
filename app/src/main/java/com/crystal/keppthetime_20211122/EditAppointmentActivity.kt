@@ -25,9 +25,15 @@ class EditAppointmentActivity : BaseActivity() {
 
 //    약속을 잡을 일시를 저장할 변수 (Calender)
 
-
-
     val mSelectedDateTime = Calendar.getInstance()      // 기본값 : 현재 일시
+
+//    약속을 잡을 위치를 저장할 변수 (네이버 - LatLng)
+//    그 위치를 보여줄 마커 (네이버 - Marker)
+//    처음 화면이 나타날때는, 아직 선택 안한상태. => 위치도 / 마커도 아직 없다. (초기 값 - null)
+
+    var mSelectedLatLng : LatLng? =  null
+    var mSelectedMarker : Marker? = null
+
 
     lateinit var binding : ActivityEditAppointmentBinding
 
@@ -216,16 +222,26 @@ class EditAppointmentActivity : BaseActivity() {
 
             naverMap.setOnMapClickListener { point, latLng ->
 
+
+
+
 //                클린된 좌표 latLng -> 카메라 이동 (정가운데) / 마커 찍기
 
                 val cameraUpdate = CameraUpdate.scrollTo(latLng)
 
                 naverMap.moveCamera( cameraUpdate )
 
-                val marker = Marker()
+                //                선택한 위치를 멤버변수에 담아두자.
+                mSelectedLatLng = latLng
 
-                marker.position = latLng
-                marker.map = naverMap
+//                선택한 위치를 보여줄 마커도 (만들어진게 없다면 새로) 생성.
+                if (mSelectedMarker == null) {
+                    mSelectedMarker = Marker()
+                }
+                mSelectedMarker!!.position = latLng
+                mSelectedMarker!!.map = naverMap
+
+
             }
 
 
