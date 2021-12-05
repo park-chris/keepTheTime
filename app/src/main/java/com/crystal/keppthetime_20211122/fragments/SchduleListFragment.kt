@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.crystal.keppthetime_20211122.EditAppointmentActivity
 import com.crystal.keppthetime_20211122.R
+import com.crystal.keppthetime_20211122.adapters.ScheduleRecyclerAdapter
 import com.crystal.keppthetime_20211122.databinding.FragmentScheduleListBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.datas.ScheduleData
@@ -21,6 +23,8 @@ class SchduleListFragment : BaseFragment() {
     lateinit var binding : FragmentScheduleListBinding
 
     val mScheduleList = ArrayList<ScheduleData>()
+
+    lateinit var mScheduleAdapter : ScheduleRecyclerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,6 +55,11 @@ class SchduleListFragment : BaseFragment() {
 
         getScheduleListFromServer()
 
+        mScheduleAdapter = ScheduleRecyclerAdapter( mContext, mScheduleList )
+
+        binding.appointmentRecyclerView.adapter = mScheduleAdapter
+        binding.appointmentRecyclerView.layoutManager = LinearLayoutManager(mContext)
+
     }
 
     fun getScheduleListFromServer() {
@@ -66,6 +75,7 @@ class SchduleListFragment : BaseFragment() {
 
                     mScheduleList.addAll(br.data.appointments)
 
+                    mScheduleAdapter.notifyDataSetChanged()
 
 
                 }
