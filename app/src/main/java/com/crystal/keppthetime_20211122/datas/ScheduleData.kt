@@ -1,12 +1,13 @@
 package com.crystal.keppthetime_20211122.datas
 
+import java.util.*
 
 
 class ScheduleData(
 
     var id: Int,
     var title: String,
-    var dateTime: String,
+    var datetime: Date,
     var place: String,
     var latitude: Double,
     var longitude: Double,
