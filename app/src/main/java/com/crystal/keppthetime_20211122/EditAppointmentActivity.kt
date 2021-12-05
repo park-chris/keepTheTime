@@ -212,33 +212,22 @@ class EditAppointmentActivity : BaseActivity() {
 //            로딩이 끝난 네이버맵 객체(인스턴스가) => it 변수에 담겨있다.
             val naverMap = it
 
+//            기능 : 지도를 클릭하면 -> 클릭된 지점에 마커 찍기. (커스텀 마커 예시)
 
-//           예시. 카메라를 본인 집근처로 이동
-
-//            위경도 정보 => 카메라 이동 명령을 변수에 저장만.
-
-            val latLng =  LatLng( 37.547461170580696, 127.04715823471302 )
-
-            val cameraUpdate = CameraUpdate.scrollTo( latLng )
-            naverMap.moveCamera(cameraUpdate)
-
-
-//            마커를 본인 집 근처 찍어보기
-
-            val marker = Marker()
-            marker.position = latLng
-            marker.map = naverMap
-
-            marker.icon = OverlayImage.fromResource(R.drawable.custom_marker_small)
-
-            
-//            네이버 지도 클릭 이벤트 달아보기
-            
             naverMap.setOnMapClickListener { point, latLng ->
 
-                Toast.makeText(mContext, "위도 : ${latLng.latitude}, 경도 : ${latLng.longitude}", Toast.LENGTH_SHORT).show()
-                
+//                클린된 좌표 latLng -> 카메라 이동 (정가운데) / 마커 찍기
+
+                val cameraUpdate = CameraUpdate.scrollTo(latLng)
+
+                naverMap.moveCamera( cameraUpdate )
+
+                val marker = Marker()
+
+                marker.position = latLng
+                marker.map = naverMap
             }
+
 
         }
 
