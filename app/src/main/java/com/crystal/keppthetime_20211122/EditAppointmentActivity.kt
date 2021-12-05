@@ -20,6 +20,8 @@ class EditAppointmentActivity : BaseActivity() {
 
 //    약속을 잡을 일시를 저장할 변수 (Calender)
 
+
+
     val mSelectedDateTime = Calendar.getInstance()      // 기본값 : 현재 일시
 
     lateinit var binding : ActivityEditAppointmentBinding
@@ -43,7 +45,20 @@ class EditAppointmentActivity : BaseActivity() {
             val timeSetListener = object : TimePickerDialog.OnTimeSetListener {
                 override fun onTimeSet(p0: TimePicker?, hourOfDay: Int, minute: Int) {
 
-                    Log.d("선택된시간", "${hourOfDay}시, ${minute}분")
+//                    Log.d("선택된시간", "${hourOfDay}시, ${minute}분")
+
+//                    선택한 시간도 실제로 저장
+                    mSelectedDateTime.set(Calendar.HOUR_OF_DAY, hourOfDay)
+                    mSelectedDateTime.set(Calendar.MINUTE, minute)
+
+//                    선택한 시간을 -> 오후 4:05 형태로 txtTime에 표시
+//                    SimpleDateFormat 활용.
+
+                    val timeFormat = SimpleDateFormat("a h:mm")
+                    val timeStr = timeFormat.format(mSelectedDateTime.time)
+
+                    binding.txtTime.text = timeStr
+
 
                 }
 
