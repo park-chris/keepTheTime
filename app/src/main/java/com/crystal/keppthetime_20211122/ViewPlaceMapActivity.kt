@@ -7,6 +7,7 @@ import com.crystal.keppthetime_20211122.databinding.ActivityViewPlaceMapBinding
 import com.crystal.keppthetime_20211122.datas.ScheduleData
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
+import com.naver.maps.map.overlay.InfoWindow
 import com.naver.maps.map.overlay.Marker
 
 class ViewPlaceMapActivity : BaseActivity() {
@@ -55,6 +56,17 @@ class ViewPlaceMapActivity : BaseActivity() {
             val marker = Marker()
             marker.position = coord
             marker.map = naverMap
+
+            val infoWindow = InfoWindow()
+            infoWindow.adapter = object  : InfoWindow.DefaultTextAdapter(mContext) {
+                override fun getText(p0: InfoWindow): CharSequence {
+                    return "테스트 문구"
+                }
+
+            }
+
+            infoWindow.open(marker)
+
 
         }
 

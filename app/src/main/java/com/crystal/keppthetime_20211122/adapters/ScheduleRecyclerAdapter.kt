@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.crystal.keppthetime_20211122.R
 import com.crystal.keppthetime_20211122.ViewPlaceMapActivity
 import com.crystal.keppthetime_20211122.datas.ScheduleData
+import com.naver.maps.map.overlay.InfoWindow
 
 class ScheduleRecyclerAdapter(val mContext: Context, val mList: List<ScheduleData>) : RecyclerView.Adapter<ScheduleRecyclerAdapter.ScheduleViewHolder>(){
 
@@ -36,6 +37,11 @@ class ScheduleRecyclerAdapter(val mContext: Context, val mList: List<ScheduleDat
                 myIntent.putExtra("schedule", data)
 
                 mContext.startActivity(myIntent)
+
+
+//                추가기능 체험 - 정보창 (말풍선) => 마커에 반영
+
+
 
             }
 
