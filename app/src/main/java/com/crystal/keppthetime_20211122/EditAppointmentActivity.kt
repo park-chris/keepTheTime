@@ -10,6 +10,7 @@ import android.widget.TimePicker
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.RecyclerView
 import com.crystal.keppthetime_20211122.databinding.ActivityEditAppointmentBinding
 import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.crystal.keppthetime_20211122.datas.PlaceData
@@ -139,6 +140,13 @@ class EditAppointmentActivity : BaseActivity() {
                         val alert = AlertDialog.Builder(mContext)
 
                         val customView = LayoutInflater.from(mContext).inflate(R.layout.my_custom_alert_place, null)
+
+
+//                        커스텀뷰 안의 리싸이클러뷰 추출
+                        val placeSelectRecyclerView = customView.findViewById<RecyclerView>(R.id.placeSelectRecyclerView)
+
+//                        리싸이클러뷰에, placeList에 담긴 장소목록을 표시.
+
                         alert.setTitle("약속 장소 선택")
                         alert.setView(customView)
 
