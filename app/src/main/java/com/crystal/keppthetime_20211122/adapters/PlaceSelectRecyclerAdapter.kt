@@ -4,24 +4,35 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.crystal.keppthetime_20211122.R
 import com.crystal.keppthetime_20211122.datas.PlaceData
 
 class PlaceSelectRecyclerAdapter(val mContext: Context, val mList: List<PlaceData>) : RecyclerView.Adapter<PlaceSelectRecyclerAdapter.PlaceViewHolder>() {
 
-    inner class PlaceViewHolder(row: View) : RecyclerView.ViewHolder(row)
+    inner class PlaceViewHolder(row: View) : RecyclerView.ViewHolder(row) {
+
+//        멤버변수 - list_item 내부의 UI
+        val txtPlaceName = row.findViewById<TextView>(R.id.txtPlaceName)
+
+//        함수 - 실제 데이터 연동 bind
+        fun bind(data: PlaceData) {
+
+            txtPlaceName.text = data.placeName
+
+        }
+
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
-
-
-        val row = LayoutInflater.from(mContext).inflate(R.layout.place_list_item, parent)
+        val row = LayoutInflater.from(mContext).inflate(R.layout.place_list_item, parent, false)
         return  PlaceViewHolder(row)
-
     }
 
     override fun onBindViewHolder(holder: PlaceViewHolder, position: Int) {
 
+        holder.bind(mList[position])
 
     }
 
