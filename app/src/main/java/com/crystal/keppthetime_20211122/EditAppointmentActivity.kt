@@ -154,6 +154,13 @@ class EditAppointmentActivity : BaseActivity() {
                         placeSelectRecyclerView.layoutManager = LinearLayoutManager(mContext)
 
 
+                        alert.setTitle("약속 장소 선택")
+                        alert.setView(customView)
+
+                        val dialog = alert.show()
+
+//                        열린 경고창 화면 (dialog) 을 변수에 담아두고 -> 코드로 닫아주자.
+
 //                        만든 리싸이클러 어댑터의 변수로 들어있는 OnItemClick 기능 활용.
                         placeAdapter.onItemClickListener = object : PlaceSelectRecyclerAdapter.OnItemClickListener {
                             override fun onItemClick(data: PlaceData) {
@@ -165,9 +172,9 @@ class EditAppointmentActivity : BaseActivity() {
 
                                 setPlaceDataToNaverMap(data)
 
-//                                추가 기능 : 열려있는 팝업창 닫기
+//                                추가 기능 : 열려있는 (show로 나타난) 팝업창 닫기 => dialog 변수에 담긴 화면 닫기.
 
-
+                                dialog.dismiss()
 
                             }
 
@@ -176,10 +183,7 @@ class EditAppointmentActivity : BaseActivity() {
 
 
 
-                        alert.setTitle("약속 장소 선택")
-                        alert.setView(customView)
 
-                        alert.show()
 
                     }
 
