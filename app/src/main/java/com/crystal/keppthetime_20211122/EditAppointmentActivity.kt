@@ -2,7 +2,6 @@ package com.crystal.keppthetime_20211122
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.DatePicker
@@ -14,14 +13,17 @@ import com.crystal.keppthetime_20211122.datas.BasicResponse
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
+import com.odsay.odsayandroidsdk.API
+import com.odsay.odsayandroidsdk.ODsayData
 import com.odsay.odsayandroidsdk.ODsayService
+import com.odsay.odsayandroidsdk.OnResultCallbackListener
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EditAppointmentActivity : BaseActivity() {
 
@@ -33,13 +35,13 @@ class EditAppointmentActivity : BaseActivity() {
 //    그 위치를 보여줄 마커 (네이버 - Marker)
 //    처음 화면이 나타날때는, 아직 선택 안한상태. => 위치도 / 마커도 아직 없다. (초기 값 - null)
 
-    var mSelectedLatLng : LatLng? =  null
-    var mSelectedMarker : Marker? = null
+    var mSelectedLatLng: LatLng? = null
+    var mSelectedMarker: Marker? = null
 
-    var mPath : PathOverlay? = null
+    var mPath: PathOverlay? = null
 
 
-    lateinit var binding : ActivityEditAppointmentBinding
+    lateinit var binding: ActivityEditAppointmentBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,7 +121,7 @@ class EditAppointmentActivity : BaseActivity() {
 //                    txtDate의 문구를 -> 2021-12-05 와  같은 양식으로 가공해서 텍스트 세팅.
 
 //                    Calendar를 다룰 양식만 미리 지정.
-                    val dateFormat = SimpleDateFormat( "yy년 M월 d일" )
+                    val dateFormat = SimpleDateFormat("yy년 M월 d일")
 
 //                    Calendar => String 변환.
                     val dateStr = dateFormat.format(mSelectedDateTime.time)
@@ -139,8 +141,8 @@ class EditAppointmentActivity : BaseActivity() {
 
             val datePickerDialog = DatePickerDialog(
                 mContext, dateSetListener,
-                mSelectedDateTime.get( Calendar.YEAR ),
-                mSelectedDateTime.get( Calendar.MONTH),
+                mSelectedDateTime.get(Calendar.YEAR),
+                mSelectedDateTime.get(Calendar.MONTH),
                 mSelectedDateTime.get(Calendar.DAY_OF_MONTH)
             )
 
@@ -153,7 +155,7 @@ class EditAppointmentActivity : BaseActivity() {
 //            입력값 검증. (validation)
 
 //            1. 일자 / 시간을 모두 선택했는지?
-            if ( binding.txtDate.text == "날짜 선택" || binding.txtTime.text == "시간 선택") {
+            if (binding.txtDate.text == "날짜 선택" || binding.txtTime.text == "시간 선택") {
 
 //                둘 중 하나를 아직 입력하지 않은 상황.
                 Toast.makeText(mContext, "약속 일시를 모두 선택해주세요.", Toast.LENGTH_SHORT).show()
@@ -171,7 +173,7 @@ class EditAppointmentActivity : BaseActivity() {
 
 //            두 개의 시간을 양으로 변환해서 대소비교.
 
-            if ( mSelectedDateTime.timeInMillis < now.timeInMillis ) {
+            if (mSelectedDateTime.timeInMillis < now.timeInMillis) {
 
 //                약속시간이, 현재시간보다 덜 시간이 흐른 상태. (더 이전 시간)
 
@@ -187,7 +189,7 @@ class EditAppointmentActivity : BaseActivity() {
 
 //            약속 장소 추가 검증
 
-            if (mSelectedLatLng == null ) {
+            if (mSelectedLatLng == null) {
                 Toast.makeText(mContext, "약속 장소를 지도에서 선택해주세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
@@ -203,13 +205,17 @@ class EditAppointmentActivity : BaseActivity() {
 
             val inputPlace = binding.edtPlace.text.toString()
 
-            apiService.postRequestAppointment(inputTitle, finalDateTimeStr, inputPlace, mSelectedLatLng!!.latitude, mSelectedLatLng!!.longitude).enqueue(object : Callback<BasicResponse> {
+            apiService.postRequestAppointment(
+                inputTitle,
+                finalDateTimeStr,
+                inputPlace,
+                mSelectedLatLng!!.latitude,
+                mSelectedLatLng!!.longitude
+            ).enqueue(object : Callback<BasicResponse> {
                 override fun onResponse(
                     call: Call<BasicResponse>,
                     response: Response<BasicResponse>
                 ) {
-
-
 
 
                 }
@@ -235,13 +241,11 @@ class EditAppointmentActivity : BaseActivity() {
             naverMap.setOnMapClickListener { point, latLng ->
 
 
-
-
 //                클린된 좌표 latLng -> 카메라 이동 (정가운데) / 마커 찍기
 
                 val cameraUpdate = CameraUpdate.scrollTo(latLng)
 
-                naverMap.moveCamera( cameraUpdate )
+                naverMap.moveCamera(cameraUpdate)
 
                 //                선택한 위치를 멤버변수에 담아두자.
                 mSelectedLatLng = latLng
@@ -258,28 +262,66 @@ class EditAppointmentActivity : BaseActivity() {
 
                 val startingPoint = LatLng(37.547941967227395, 127.04573154041397)
 
+                //                출발지 ~ 도착지까지의 대중교통 정거장 목록을 위경도 추출.
+//                ODSay 라이브러리 설치 => API 활용.
+
+                val myODsayService =
+                    ODsayService.init(mContext, "8GRNIDYIKANdu3cds47JAb0wZz1H/rOP4shvJg2MrBM")
+
+                myODsayService.requestSearchPubTransPath(
+                    startingPoint.longitude.toString(),
+                    startingPoint.latitude.toString(),
+                    latLng.longitude.toString(),
+                    latLng.latitude.toString(),
+                    null,
+                    null,
+                    null,
+
+                    object : OnResultCallbackListener {
+                        override fun onSuccess(p0: ODsayData?, p1: API?) {
+                            val jsonObj = p0!!.json
+                            Log.d("길찾기응답", jsonObj.toString())
+
+//                            출발지 ~ 지하철 (or 버스정거장) 좌표들 ~ 도착지 좌표 목록으로 설정.
+
+                            val transCoords = ArrayList<LatLng>()
+
+//                            출발지를 첫 좌표로 등록
+                            transCoords.add(startingPoint)
+
+//                            지하철 역 등 좌표들 등록 ( 파싱 - 반복 )
+
+
+//                            도착지를 마지막 좌표로 등록
+                            transCoords.add(latLng)
+
+//                            지도에 선 그려주기
+
+
 //                선이 그어질 경로 ( 여러 지점의 연결로 표현)
 
 //                PathOverlay() 선 긋는 객체 생성. => 지도에 클릭될떄마다 새로 생성됨. => 선도 하나씩 새로 그어짐.
 
 //                mPath 변수가 null 상태라면? 새 객체 만들어서 채워줌
-                if (mPath == null) {
-                    mPath = PathOverlay()
-                }
+                            if (mPath == null) {
+                                mPath = PathOverlay()
+                            }
 
-                mPath!!.coords = arrayListOf(
-                    startingPoint,
-                    LatLng(37.622, 127.1),
-                    LatLng(37.722, 127.2),
-                    latLng
+                            mPath!!.coords = transCoords
+                            mPath!!.map = naverMap
+                        }
+
+                        override fun onError(p0: Int, p1: String?, p2: API?) {
+
+                            Log.d("길찾기에러", p1.toString())
+
+                        }
+
+                    }
                 )
-                mPath!!.map = naverMap
-
-
 
 
             }
-
 
 
         }
