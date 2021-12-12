@@ -297,6 +297,15 @@ class EditAppointmentActivity : BaseActivity() {
 
 //                            지도에 선 그려주기
 
+                            val resultObj = jsonObj.getJSONObject("result")
+                            val pathArr = resultObj.getJSONArray("path")
+
+//                            첫번째 경로만 활용 예정.
+                            if (pathArr.length() > 0) {
+                                val firstPath = pathArr.getJSONObject(0)
+                                Log.d("첫번째추천경로", firstPath.toString())
+                            }
+
 
 //                선이 그어질 경로 ( 여러 지점의 연결로 표현)
 
