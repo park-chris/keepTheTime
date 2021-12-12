@@ -16,6 +16,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import com.naver.maps.map.overlay.PathOverlay
+import com.odsay.odsayandroidsdk.ODsayService
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -268,6 +269,8 @@ class EditAppointmentActivity : BaseActivity() {
 
                 mPath!!.coords = arrayListOf(
                     startingPoint,
+                    LatLng(37.622, 127.1),
+                    LatLng(37.722, 127.2),
                     latLng
                 )
                 mPath!!.map = naverMap
