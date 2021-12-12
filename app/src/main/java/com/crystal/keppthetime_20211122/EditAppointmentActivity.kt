@@ -292,9 +292,6 @@ class EditAppointmentActivity : BaseActivity() {
 //                            지하철 역 등 좌표들 등록 ( 파싱 - 반복 )
 
 
-//                            도착지를 마지막 좌표로 등록
-                            transCoords.add(latLng)
-
 //                            지도에 선 그려주기
 
                             val resultObj = jsonObj.getJSONObject("result")
@@ -322,12 +319,30 @@ class EditAppointmentActivity : BaseActivity() {
 
                                         Log.d("정거장목록", stationsArr.toString())
 
+                                        for ( j in 0 until stationsArr.length() ) {
+
+                                            val stationsObj = stationsArr.getJSONObject(j)
+
+//                                            정거장의 x, y => 지도 표시 경도(lng), 위도(lat)
+
+                                            val lat = stationsObj.getString("y").toDouble()
+                                            val lng = stationsObj.getString("x").toDouble()
+
+//                                            네이버 지도에서 사용할 위치 객체로 변환
+                                            val stationLatLng = LatLng(lat, lng)
+
+//                                            경로에서 -> 표시할 중간 좌표로 추가 등록.
+                                            transCoords.add(stationLatLng)
+
+                                        }
+
 
                                     }
 
                                 }
                             }
 
+                            transCoords.add(latLng)
 
 //                선이 그어질 경로 ( 여러 지점의 연결로 표현)
 
