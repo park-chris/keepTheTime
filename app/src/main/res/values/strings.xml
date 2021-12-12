@@ -3,5 +3,5 @@
     <string name="facebook_app_id">420305383135183</string>
     <string name="fb_login_protocol_scheme">fb420305383135183</string>
     <string name="odsay_key">8GRNIDYIKANdu3cds47JAb0wZz1H/rOP4shvJg2MrBM</string>
-
+    <string name="kakao_api_key">8c7539b1c0be3c72d68290ba7a2364da</string>
 </resources>
